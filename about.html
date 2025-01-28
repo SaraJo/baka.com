@@ -1,5 +1,5 @@
 <!--
-MADE YOU LOOK
+MADE YOU LOOK 
 
 .---:                                                  
                                             -+*****+=                                           :.. 
@@ -140,11 +140,56 @@ MADE YOU LOOK
             z-index: 9999;
             cursor: pointer; /* Shows pointer on hover */
         }
+
+        .loading-container {
+            position: fixed;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 1000;
+            display: none; /* Hidden by default */
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .loading-bar {
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            width: 0%;
+            height: 100%;
+            background: white;
+            border-radius: 2px;
+            animation: loading 2s infinite ease-in-out;
+        }
+
+        @keyframes loading {
+            0% { width: 0; }
+            50% { width: 100%; }
+            100% { width: 0; }
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="sound-prompt">Click anywhere for sound 🔊</div>
+    <div class="loading-container">
+        <div class="loading-text">loading...</div>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+    </div>
     <div class="video-container">
         <video autoplay loop muted playsinline>
             <source src="youtube_IxX_QHay02M_1920x1080_h264.mp4" type="video/mp4">
@@ -199,6 +244,23 @@ MADE YOU LOOK
         }
 
         flashPixel();
+
+        const loadingContainer = document.querySelector('.loading-container');
+
+        // Show loading when video is buffering
+        video.addEventListener('waiting', function() {
+            loadingContainer.style.display = 'block';
+        });
+
+        // Hide loading when video can play
+        video.addEventListener('canplay', function() {
+            loadingContainer.style.display = 'none';
+        });
+
+        // Also hide loading when video starts playing
+        video.addEventListener('playing', function() {
+            loadingContainer.style.display = 'none';
+        });
     </script>
 </body>
 </html> 
