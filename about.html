@@ -87,7 +87,8 @@ MADE YOU LOOK
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us</title>
+    <title>baka oi oi oi - about</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <style>
         body {
             margin: 0;
@@ -192,7 +193,7 @@ MADE YOU LOOK
     </div>
     <div class="video-container">
         <video autoplay loop muted playsinline>
-            <source src="youtube_IxX_QHay02M_1920x1080_h264.mp4" type="video/mp4">
+            <source src="youtube_IxX_QHay02M_1920x1080_h264" type="video/mp4">
             Your browser does not support the video tag.
         </video>
     </div>
@@ -247,7 +248,14 @@ MADE YOU LOOK
 
         const loadingContainer = document.querySelector('.loading-container');
 
-        // Show loading when video is buffering
+        // Show loading immediately when page loads
+        loadingContainer.style.display = 'block';
+
+        // Show loading when video is buffering or loading
+        video.addEventListener('loadstart', function() {
+            loadingContainer.style.display = 'block';
+        });
+
         video.addEventListener('waiting', function() {
             loadingContainer.style.display = 'block';
         });
@@ -260,6 +268,11 @@ MADE YOU LOOK
         // Also hide loading when video starts playing
         video.addEventListener('playing', function() {
             loadingContainer.style.display = 'none';
+        });
+
+        // If video fails to load
+        video.addEventListener('error', function() {
+            loadingContainer.querySelector('.loading-text').textContent = 'Error loading video...';
         });
     </script>
 </body>
