@@ -234,17 +234,27 @@ MADE YOU LOOK
             '#0000ff'  // Blue
         ];
 
+        let lastColorChange = 0;
+        
         function randomColor() {
             return neonColors[Math.floor(Math.random() * neonColors.length)];
         }
 
-        function flashPixel() {
-            brokenPixel.style.backgroundColor = randomColor();
+        function flashPixel(timestamp) {
+            if (!lastColorChange) lastColorChange = timestamp;
+            
             // Random interval between 50ms and 500ms
-            setTimeout(flashPixel, Math.random() * 450 + 50);
+            const interval = Math.random() * 450 + 50;
+            
+            if (timestamp - lastColorChange >= interval) {
+                brokenPixel.style.backgroundColor = randomColor();
+                lastColorChange = timestamp;
+            }
+            
+            requestAnimationFrame(flashPixel);
         }
 
-        flashPixel();
+        requestAnimationFrame(flashPixel);
 
         const loadingContainer = document.querySelector('.loading-container');
 
